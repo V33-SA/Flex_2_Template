@@ -515,7 +515,7 @@
     "EmailLoadingThreadPlaceholder": "<p>Chargement du fil de discussion...</p>",
     "EmailLoadingThreadError": "<p>Impossible de charger le fil de discussion.</p>",
     "EmailThreadWindowTitle": "Sujet pour le message {{message.sid}}",
-    "EmailThreadDetails": "<dl>\n    <div>\n        <dt>IID du message :</dt>\n        <dd>{{message.sid}}</dd>\n    </div>\n    <div>\n        <dt>Créé à :</dt>\n        <dd>{{dateCreated}}</dd>\n    </div>\n    <div>\n        <dt>De:</dt>\n        <dd>{{author.name}} {{author.address}}</dd>\n    </div>\n    <div>\n        <dt>Objet :</dt>\n        <dd>{{message.subject}}</dd>\n    </div>\n</dl>",
+    "EmailThreadDetails": "\n            <dl>\n                <div>\n                    <dt>Message ID:</dt>\n                    <dd>{{message.sid}}</dd>\n                </div>\n                <div>\n                    <dt>Created at:</dt>\n                    <dd>{{dateCreated}}</dd>\n                </div>\n                <div>\n                    <dt>From: </dt>\n                    <dd>{{author.name}} {{author.address}}</dd>\n                </div>\n                <div>\n                    <dt>Subject:</dt>\n                    <dd>{{message.subject}}</dd>\n                </div>\n            </dl>",
     "LinkPanelTitle": "Ajouter un lien",
     "LinkPanelTextLabel": "Texte",
     "LinkPanelTextPlaceholder": "Texte à afficher",

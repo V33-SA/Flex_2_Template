@@ -2,6 +2,7 @@ import { Language } from '../types/Language';
 import esES from './es-es.json';
 import esMX from './es-mx.json';
 import ptBR from './pt-br.json';
+import frFR from './fr-FR.json';
 import th from './th.json';
 import zhHans from './zh-hans.json';
 
@@ -10,6 +11,11 @@ export default [
     name: 'English',
     key: 'en-US',
     strings: {},
+  },
+  {
+    name: 'Français',
+    key: 'fr-FR',
+    strings: frFR,
   },
   {
     name: 'Español (España)',

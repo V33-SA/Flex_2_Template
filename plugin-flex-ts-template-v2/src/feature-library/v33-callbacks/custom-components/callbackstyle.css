@@ -1,0 +1,74 @@
+input{
+    border:none!important;
+}
+
+.tableau{
+    margin: 10px auto;
+    max-width: 650px;
+  
+}
+.CallbackLayout{
+    max-width: 700px;
+    margin: 50px  auto;
+    flex-direction: column;
+}
+
+.Callbacknodata{
+    
+    margin: 10px auto;
+    min-height: 50px;
+    min-width: 350px;
+    text-align: center;
+    
+    display: flex;
+}
+
+.success{
+    background-color: #d1e7dd!important;
+}
+
+.error {
+    background-color: #f8d7da!important;
+}
+
+.NodataText{
+    margin : auto;
+    font-size: 1rem!important;
+}
+
+
+.entete{
+    background-color: darkgrey;
+}
+
+.cellule{
+    font-size: 1rem!important;
+}
+.buttonText{
+    font-size: 0.75rem!important;
+}
+
+.LoginFormulaire{
+    margin: 10px auto;
+    min-width: 550px;
+    text-align: center;
+    display:flex;
+    flex-direction: column;
+}
+.SubmitButton{
+    margin: 10px auto!important;
+    width: 150px;
+}
+.inputunderline{
+    border-bottom: 1px solid var(--player-border)!important;
+    margin: 10px 20px!important;
+}
+
+@media(max-width:600px){
+    .cellule{
+        font-size: 0.8rem!important;
+    }
+    .buttonText{
+        display: none;
+    }
+}

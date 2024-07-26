@@ -272,7 +272,7 @@
         "enable_audit_logging": true
       },
       "localization": {
-        "enabled": false,
+        "enabled": true,
         "show_menu": true
       },
       "park_interaction": {
@@ -415,18 +415,22 @@
         "enabled": true
       },
       "branding": {
-        "enabled": false,
-        "custom_logo_url": "",
-        "use_custom_colors": false,
+        "enabled": true,
+        "custom_logo_url": "https://www.groupev33.com/sites/all/themes/v33group/logo.png",
+        "use_custom_colors": true,
         "custom_colors": {
-          "main_header_background": "rgb(6, 3, 58)",
-          "side_nav_background": "rgb(255, 255, 255)",
-          "side_nav_border": "rgb(202, 205, 216)",
-          "side_nav_icon": "rgb(18, 28, 45)",
-          "side_nav_selected_icon": "rgb(2, 99, 224)",
-          "side_nav_hover_background": "rgb(225, 227, 234)"
+        "main_header_background": "rgb(130, 160, 185)",
+        "side_nav_border": "rgb(62, 96, 111)",
+        "side_nav_icon": "rgb(62, 96, 111)",
+        "side_nav_hover_background": "rgb(139, 161, 122)",
+        "side_nav_background": "rgb(255, 255, 255)",
+        "side_nav_selected_icon": "rgb(130, 160, 185)"
+
         },
         "component_theme_overrides": {}
+      },
+      "v33_callbacks": {
+        "enabled": true
       }
     }
   }

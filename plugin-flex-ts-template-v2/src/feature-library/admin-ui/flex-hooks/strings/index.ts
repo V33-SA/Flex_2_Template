@@ -3,6 +3,7 @@ import esMX from './es-mx.json';
 import ptBR from './pt-br.json';
 import th from './th.json';
 import zhHans from './zh-hans.json';
+import frFR from './fr-FR.json';
 
 export enum StringTemplates {
   ADMIN_TITLE = 'PSAdminTitle',
@@ -59,4 +60,5 @@ export const stringHook = () => ({
   th,
   'zh-Hans': zhHans,
   'es-ES': esES,
+  'fr-FR': frFR
 });

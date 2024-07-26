@@ -1,0 +1,21 @@
+{
+    "PSAdminTitle": "Paramètres des fonctionnalités",
+    "PSAdminConfigForTitle": "Configurer pour :",
+    "PSAdminConfigForMyself": "Moi-même",
+    "PSAdminConfigForEveryone": "Tout le monde",
+    "PSAdminEnabled": "Activé",
+    "PSAdminDisabled": "Désactivé",
+    "PSAdminDocs": "Documents",
+    "PSAdminRevertWorkerToGlobal": "Revenir aux paramètres globaux",
+    "PSAdminMoreSettings": "Plus de paramètres",
+    "PSAdminNoMoreSettings": "Cette fonctionnalité n'a aucun paramètre supplémentaire",
+    "PSAdminFilterFeatures": "Fonctionnalités de filtre...",
+    "PSAdminModalSettingsTitle": "{{feature}} Paramètres",
+    "PSAdminSaveError": "Une erreur s'est produite lors de l'enregistrement des modifications. Veuillez réessayer.",
+    "PSAdminSaveSuccess": "Les modifications ont été enregistrées avec succès. Veuillez redémarrer Flex pour que les modifications prennent effet.",
+    "PSAdminInvalidJson": "Entrez un JSON valide à enregistrer.",
+    "PSAdminUpdatedModalTitle": "Configurations mises à jour",
+    "PSAdminUpdatedModalDesc": "\"Un autre utilisateur a mis à jour la configuration globale. Cliquez sur \"Recharger\" pour actualiser la vue avec les paramètres mis à jour. L'option permettant d'enregistrer les paramètres globaux ne sera pas disponible tant que la vue n'aura pas été rechargée.\"",
+    "PSAdminUpdatedModalReload": "Recharger",
+    "PSAdminSaveDisabled": "Les paramètres globaux ne peuvent pas être enregistrés tant que la vue n'est pas rechargée."
+  }

@@ -6,7 +6,7 @@ import { FlexComponent } from '../../../../types/feature-loader';
 export const componentName = FlexComponent.MainHeader;
 export const componentHook = function addDeviceManagerToMainHeader(flex: typeof Flex) {
   flex.MainHeader.Content.add(<DeviceManager key="device-manager" />, {
-    sortOrder: 0,
+    sortOrder: 1,
     align: 'end',
   });
 };

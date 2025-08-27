@@ -59,7 +59,7 @@
         "filter_teams_view": true
       },
       "callback_and_voicemail": {
-        "enabled": true,
+        "enabled": false,
         "allow_requeue": true,
         "max_attempts": 3,
         "auto_select_task": true
@@ -81,7 +81,7 @@
         "hold_workaround": false
       },
       "enhanced_crm_container": {
-        "enabled": true,
+        "enabled": false,
         "url": "{{serverless.url}}/features/enhanced-crm-container/index.html?line1={{task.from}}&line2={{task.direction}}",
         "should_display_url_when_no_tasks": true,
         "display_url_when_no_tasks": "{{serverless.url}}/features/enhanced-crm-container/index.html",
@@ -107,8 +107,8 @@
         "default_max_capacity": 2
       },
       "device_manager": {
-        "enabled": false,
-        "input_select": false
+        "enabled": true,
+        "input_select": true
       },
       "dual_channel_recording": {
         "enabled": false,
@@ -117,7 +117,7 @@
         "exclude_queues": []
       },
       "pause_recording": {
-        "enabled": true,
+        "enabled": false,
         "include_silence": false,
         "indicator_banner": false,
         "indicator_permanent": true
@@ -150,7 +150,7 @@
         "enabled": true
       },
       "schedule_manager": {
-        "enabled": true,
+        "enabled": false,
         "serverless_domain": "<YOUR_SCHEDULE_MANAGER_DOMAIN>"
       },
       "multi_call": {
@@ -160,10 +160,10 @@
         "enabled": true
       },
       "chat_transfer": {
-        "enabled": false
+        "enabled": true
       },
       "agent_automation": {
-        "enabled": true,
+        "enabled": false,
         "configuration": [
           {
             "channel": "voice",
@@ -200,21 +200,21 @@
         "location": "MessageInputActions"
       },
       "keyboard_shortcuts": {
-        "enabled": true
+        "enabled": false
       },
       "custom_hold_music": {
-        "enabled": false,
-        "url": ""
+        "enabled": true,
+        "url": "https://flex.v33.com/WAIT.mp3"
       },
       "custom_transfer_directory": {
         "enabled": true,
         "worker": {
           "enabled": true,
-          "show_only_available_workers": false
+          "show_only_available_workers": true
         },
         "queue": {
           "enabled": true,
-          "show_only_queues_with_available_workers": false,
+          "show_only_queues_with_available_workers": true,
           "show_real_time_data": true,
           "enforce_queue_filter_from_worker_object": true,
           "enforce_global_exclude_filter": false,
@@ -234,7 +234,7 @@
         }
       },
       "dispositions": {
-        "enabled": true,
+        "enabled": false,
         "enable_notes": true,
         "global": {
           "require_disposition": false,
@@ -276,7 +276,7 @@
         "show_menu": true
       },
       "park_interaction": {
-        "enabled": true,
+        "enabled": false,
         "show_list": false
       },
       "teams_view_enhancements": {
@@ -296,7 +296,7 @@
         }
       },
       "ring_notification": {
-        "enabled": false
+        "enabled": true
       },
       "send_audio_rec_file": {
         "enabled": true
@@ -386,14 +386,14 @@
         "enabled": false
       },
       "worker_details": {
-        "enabled": true,
+        "enabled": false,
         "edit_team": true,
         "edit_department": true,
         "text_attributes": [],
         "boolean_attributes": []
       },
       "worker_canvas_tabs": {
-        "enabled": true
+        "enabled": false
       },
       "datadog_log_integration": {
         "enabled": false,
@@ -419,18 +419,20 @@
         "custom_logo_url": "https://www.groupev33.com/sites/all/themes/v33group/logo.png",
         "use_custom_colors": true,
         "custom_colors": {
-        "main_header_background": "rgb(130, 160, 185)",
-        "side_nav_border": "rgb(62, 96, 111)",
-        "side_nav_icon": "rgb(62, 96, 111)",
-        "side_nav_hover_background": "rgb(139, 161, 122)",
-        "side_nav_background": "rgb(255, 255, 255)",
-        "side_nav_selected_icon": "rgb(130, 160, 185)"
-
+          "main_header_background": "rgb(130, 160, 185)",
+          "side_nav_background": "rgb(255, 255, 255)",
+          "side_nav_border": "rgb(62, 96, 111)",
+          "side_nav_hover_background": "rgb(139, 161, 122)",
+          "side_nav_icon": "rgb(62, 96, 111)",
+          "side_nav_selected_icon": "rgb(130, 160, 185)"
         },
         "component_theme_overrides": {}
       },
       "v33_callbacks": {
         "enabled": true
+      },
+      "v33_availableworkers": {
+      "enabled": false
       }
     }
   }

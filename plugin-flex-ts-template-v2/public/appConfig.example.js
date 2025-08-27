@@ -1,4 +1,4 @@
-var appConfig = {
+ var appConfig = {
   pluginService: {
     enabled: true,
     url: '/plugins',

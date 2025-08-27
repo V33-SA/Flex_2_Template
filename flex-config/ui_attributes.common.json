@@ -420,7 +420,7 @@
         "component_theme_overrides": {}
       },
       "v33_availableworkers": {
-        "enabled": false
+        "enabled": true
       },
       "v33_callbacks": {
         "enabled": true

@@ -2,9 +2,11 @@ import { ExternalDirectoryEntry } from './DirectoryEntry';
 
 export default interface CustomTransferDirectoryConfig {
   enabled: boolean;
+  max_items: number;
   worker: {
     enabled: boolean;
     show_only_available_workers: boolean;
+    max_taskrouter_workers: number;
   };
   queue: {
     enabled: boolean;
@@ -17,6 +19,6 @@ export default interface CustomTransferDirectoryConfig {
   external_directory: {
     enabled: boolean;
     skipPhoneNumberValidation: boolean;
-    directory: Array<ExternalDirectoryEntry>;
+    directory?: Array<ExternalDirectoryEntry>;
   };
 }

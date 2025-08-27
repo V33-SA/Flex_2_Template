@@ -2,6 +2,9 @@
 sidebar_label: custom-transfer-directory
 title: custom-transfer-directory
 ---
+import PluginLibraryFeature from "./_plugin-library-feature.md";
+
+<PluginLibraryFeature />
 
 This feature enables the replacement of the queue and worker transfer directories enabling the following behavior
 
@@ -17,9 +20,7 @@ This feature enables the replacement of the queue and worker transfer directorie
 
 It also enables the addition of an external directory, enabling the following behavior
 
-- present a list of external transfer numbers
-  - includes contacts from the `contacts` feature if enabled
-  - each transfer number can independently be configured for warm or cold transfers
+- present a list of external transfer numbers from the `contacts` feature if enabled
   - validation checks performed on transfer numbers with notifications of any validation failures
 
 ## flex-user-experience
@@ -39,32 +40,30 @@ Enable the feature in the flex-config asset for your environment.
 ```javascript
 "custom_transfer_directory": {
   "enabled": true, // globally enable or disable the feature
+  "max_items": 200, // max number of items to show (search field allows accessing the remaining items)
   "worker" : {
     "enabled": true, // enable the custom worker tab
-    "show_only_available_workers": false
+    "show_only_available_workers": false,
+    "max_taskrouter_workers": 15000 // the maximum "Registered Workers per Workspace" (Max-Named-Workers-Count) value in the TaskRouter Limits section of Twilio Console; 15000 for most accounts.
   },
   "queue" : {
     "enabled": true, // enable the custom queue tab
     "show_only_queues_with_available_workers": true,
-    "show_real_time_data" : true, // tool tup for queues will show real time data instead of queue name
+    "show_real_time_data" : true, // tool tip for queues will show real time data instead of queue name
     "enforce_queue_filter_from_worker_object": true, // when true, if `worker.attributes.enforcedQueueFilter` is present, it will be enforced, otherwise ignored
     "enforce_global_exclude_filter": false, // when true global_exclude_filter will be applied to exclude any queues matching the filter
     "global_exclude_filter": "SYSTEM" // EXAMPLE to exclude queues containing the word SYSTEM
   },
   "external_directory": {
     "enabled": true, // enable the external directory tab for voice calls
-    "skipPhoneNumberValidation": false, // skip phone number validation
-    "directory": [{  // Array of directory entry
-      "cold_transfer_enabled": true,  // whether cold transfer button shows for entry
-      "warm_transfer_enabled": true,  // whether warm transfer button shows for entry (see further dependencies)
-      "label": "Sample Entry", // label displayed on screen
-      "number": "+10000000000" // number used for entry
-    }]
+    "skipPhoneNumberValidation": false // skip phone number validation
   }
 }
 ```
 
-NOTE: warm transfer for external directory entries only takes effect if either this plugins 'conference' feature is also enabled OR Flex's native warm transfer feature is enabled (currently in beta). If neither of these are enabled then a notification will be posted at login informing the user that warm transfers will not be available.
+NOTE: warm transfer for external directory entries is only available if either the 'conference' feature is also enabled OR Flex's native warm transfer feature is enabled (currently in beta). If neither of these are enabled, a notification will be posted at login informing the user that warm transfers will not be available.
+
+Example worker attribute setting for when the `enforce_queue_filter_from_worker_object` setting is enabled:
 
 ```javascript
 worker.attributes : {

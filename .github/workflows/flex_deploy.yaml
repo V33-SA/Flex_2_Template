@@ -62,7 +62,7 @@ jobs:
       - name: setup node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
       - name: set github environment variables
         env:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
@@ -73,7 +73,7 @@ jobs:
         run: |
           npm install --ignore-scripts
       - name: validate environment
-        run: node scripts/validate-environment.mjs >> $GITHUB_STEP_SUMMARY
+        run: npm run -s validate-environment >> $GITHUB_STEP_SUMMARY
 
   # When performing an initial release
   # the serverless backend needs an initial deploy so
@@ -93,7 +93,7 @@ jobs:
       - name: setup node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
       - name: set github environment variables
         env:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
@@ -150,7 +150,7 @@ jobs:
       - name: setup node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
       - name: set github environment variables
         env:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
@@ -191,7 +191,7 @@ jobs:
       - name: setup node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
       - name: set github environment variables
         env:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
@@ -216,20 +216,20 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     env:
-      TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-      TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
-      TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
       PLUGIN_FOLDER: plugin-flex-ts-template-v2
     steps:
       - uses: actions/checkout@v4
       - name: setup node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-
+          node-version: '20'
+      - name: set github environment variables
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
+        run: scripts/github-set-env.sh
       - name: install twilio cli
         run: npm install --ignore-scripts
-
       - name: deploy and release flex-plugin
         run: |
           echo "### Job summary" >> $GITHUB_STEP_SUMMARY

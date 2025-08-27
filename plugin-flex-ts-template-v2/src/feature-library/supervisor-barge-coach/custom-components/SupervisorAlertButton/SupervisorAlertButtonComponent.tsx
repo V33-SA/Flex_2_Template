@@ -1,49 +1,45 @@
 import React, { useEffect } from 'react';
-import { IconButton, templates } from '@twilio/flex-ui';
+import { IconButton, styled, templates } from '@twilio/flex-ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { Flex } from '@twilio-paste/core/flex';
 import { Tooltip } from '@twilio-paste/core/tooltip';
 
 import { reduxNamespace } from '../../../../utils/state';
 import { AppState } from '../../../../types/manager';
-import { Actions } from '../../flex-hooks/states/SupervisorBargeCoach';
-import { alertSupervisorsCheck, syncUpdates } from '../../helpers/supervisorAlertHelper';
+import { setBargeCoachStatus } from '../../flex-hooks/states/SupervisorBargeCoachSlice';
+import { alertSupervisorsCheck } from '../../helpers/supervisorAlertHelper';
 import { StringTemplates } from '../../flex-hooks/strings/BargeCoachAssist';
+
+interface ThemeOnlyProps {
+  theme?: any;
+}
+
+const AssistanceAlertIconButton = styled(IconButton)<ThemeOnlyProps>`
+  padding: ${({ theme }) => theme.tokens.spacings.space30};
+  :hover {
+    background-color: ${({ theme }) => theme.tokens.backgroundColors.colorBackgroundStronger};
+  }
+`;
 
 export const SupervisorAlertButton = () => {
   const dispatch = useDispatch();
 
-  const { enableAgentAssistanceAlerts, agentAssistanceSyncSubscribed } = useSelector(
-    (state: AppState) => state[reduxNamespace].supervisorBargeCoach,
-  );
-
-  const agentAssistanceAlertToggle = () => {
-    if (enableAgentAssistanceAlerts) {
-      dispatch(
-        Actions.setBargeCoachStatus({
-          enableAgentAssistanceAlerts: false,
-        }),
-      );
-      // If the supervisor disabled the agent assistance alerts, let's cache this
-      // to ensure it is set to false if a browser refresh happens
-      alertSupervisorsCheck();
-      localStorage.setItem('cacheAlerts', 'false');
-    } else {
-      dispatch(
-        Actions.setBargeCoachStatus({
-          enableAgentAssistanceAlerts: true,
-        }),
-      );
-      alertSupervisorsCheck();
-      localStorage.setItem('cacheAlerts', 'true');
-    }
-  };
+  const { enableAgentAssistanceAlerts } = useSelector((state: AppState) => state[reduxNamespace].supervisorBargeCoach);
 
   useEffect(() => {
-    if (!agentAssistanceSyncSubscribed) {
-      syncUpdates();
-    }
-  });
+    alertSupervisorsCheck();
+    // Cache the value so it can be restored after a refresh
+    localStorage.setItem('cacheAlerts', `${enableAgentAssistanceAlerts}`);
+  }, [enableAgentAssistanceAlerts]);
+
+  const agentAssistanceAlertToggle = () => {
+    dispatch(
+      setBargeCoachStatus({
+        enableAgentAssistanceAlerts: !enableAgentAssistanceAlerts,
+      }),
+    );
+  };
+
   // Return the Supervisor Agent Assistance Toggle, this gives the supervisor
   // the option to enable or disable Agent Assistance Alerts
   return (
@@ -56,11 +52,9 @@ export const SupervisorAlertButton = () => {
       placement="left"
     >
       <Flex vAlignContent="center">
-        <IconButton
-          icon={enableAgentAssistanceAlerts ? 'BellBold' : 'Bell'}
+        <AssistanceAlertIconButton
+          icon={enableAgentAssistanceAlerts ? 'HelpBold' : 'Help'}
           onClick={() => agentAssistanceAlertToggle()}
-          size="small"
-          style={{ backgroundColor: 'transparent' }}
         />
       </Flex>
     </Tooltip>

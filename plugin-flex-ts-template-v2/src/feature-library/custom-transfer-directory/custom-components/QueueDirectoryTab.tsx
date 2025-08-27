@@ -24,6 +24,7 @@ import {
   isCbmColdTransferEnabled,
   isCbmWarmTransferEnabled,
   showRealTimeQueueData,
+  isNativeDigitalXferEnabled,
 } from '../config';
 import { CustomTransferDirectoryNotification } from '../flex-hooks/notifications/CustomTransferDirectory';
 import { CustomWorkerAttributes } from '../../../types/task-router/Worker';
@@ -31,6 +32,8 @@ import { StringTemplates } from '../flex-hooks/strings/CustomTransferDirectory';
 import { DirectoryEntry } from '../types/DirectoryEntry';
 import DirectoryTab, { TransferClickPayload } from './DirectoryTab';
 import logger from '../../../utils/logger';
+import { getFlexFeatureFlag } from '../../../utils/configuration';
+import ConversationsHelper from '../../../utils/helpers/ConversationsHelper';
 
 export interface IRealTimeQueueData {
   total_tasks: number | null;
@@ -49,6 +52,7 @@ export interface TransferQueue extends IQueue, IRealTimeQueueData {}
 
 export interface OwnProps {
   task: ITask;
+  queues?: Array<IQueue>;
 }
 
 export interface MapItem {
@@ -81,8 +85,7 @@ const QueueDirectoryTab = (props: OwnProps) => {
   const { workspaceClient, insightsClient, workerClient } = Manager.getInstance();
   const na = templates[StringTemplates.NA]();
 
-  const callWarmTransferEnabled =
-    Manager.getInstance().store.getState().flex.featureFlags.features['flex-warm-transfers']?.enabled;
+  const callWarmTransferEnabled = getFlexFeatureFlag('flex-warm-transfers');
 
   const isWarmTransferEnabled =
     props.task && TaskHelper.isCBMTask(props.task) ? isCbmWarmTransferEnabled() : callWarmTransferEnabled;
@@ -91,16 +94,18 @@ const QueueDirectoryTab = (props: OwnProps) => {
   // async function to retrieve the task queues from the tr sdk
   // this will trigger the useEffect for a fetchedQueues update
   const fetchSDKTaskQueues = async () => {
-    if (workspaceClient)
-      setFetchedQueues(
-        Array.from(
-          (
-            await workspaceClient.fetchTaskQueues({
-              Ordering: 'DateUpdated:desc',
-            })
-          ).values(),
-        ) as unknown as Array<IQueue>,
-      );
+    if (!workspaceClient) {
+      return;
+    }
+    setFetchedQueues(
+      Array.from(
+        (
+          await workspaceClient.fetchTaskQueues({
+            Ordering: 'DateUpdated:desc',
+          })
+        ).values(),
+      ) as unknown as Array<IQueue>,
+    );
   };
 
   // async function to retrieve queues from the insights client with
@@ -135,30 +140,6 @@ const QueueDirectoryTab = (props: OwnProps) => {
 
     // make sure all queues are loaded
     const insightQueues = await getAllSyncMapItems(queueMap.current);
-
-    // update the queue item
-    queueMap.current.on('itemUpdated', (updatedItem) => {
-      const {
-        item: { key, data },
-      } = updatedItem;
-
-      const queue = transferQueues.current.find((transferQueue) => transferQueue.sid === key);
-      if (queue && data) {
-        mapRealTimeDataToTransferQueueItem(queue, data as IRealTimeQueueData);
-      }
-
-      filterQueues();
-    });
-
-    // if a queue is added trigger a reload
-    queueMap.current.on('itemAdded', () => {
-      fetchSDKTaskQueues();
-    });
-
-    // if a queue is removed trigger a reload
-    queueMap.current.on('itemRemoved', () => {
-      fetchSDKTaskQueues();
-    });
 
     setInsightsQueues(insightQueues);
   };
@@ -236,6 +217,25 @@ const QueueDirectoryTab = (props: OwnProps) => {
   };
 
   const onTransferQueueClick = (entry: DirectoryEntry, transferOptions: TransferClickPayload) => {
+    if (isNativeDigitalXferEnabled() && TaskHelper.isCBMTask(props.task) && transferOptions.mode !== 'WARM') {
+      const {
+        flexInteractionSid: interactionSid,
+        flexInteractionChannelSid: channelSid,
+        conversationSid,
+      } = props.task.attributes;
+      (async () => {
+        const agent = await ConversationsHelper.getMyParticipant(props.task);
+        Actions.invokeAction('StartChannelTransfer', {
+          instanceSid: Manager.getInstance().serviceConfiguration.flex_instance_sid,
+          interactionSid,
+          channelSid,
+          fromSid: agent?.participantSid,
+          toSid: entry.address,
+          conversationSid,
+        });
+      })();
+      return;
+    }
     Actions.invokeAction('TransferTask', {
       task: props.task,
       targetSid: entry.address,
@@ -243,13 +243,24 @@ const QueueDirectoryTab = (props: OwnProps) => {
     });
   };
 
+  const onReloadClick = () => {
+    setIsLoading(true);
+    fetchQueues();
+  };
+
+  const fetchQueues = () => {
+    if (!Array.isArray(props.queues)) {
+      // fetch the queues from the taskrouter sdk
+      fetchSDKTaskQueues().catch(logger.error);
+    }
+
+    // fetch the queues from the insights client
+    fetchInsightsQueueData().catch(logger.error);
+  };
+
   // initial render
   useEffect(() => {
-    // fetch the queues from the taskrouter sdk on initial render
-    fetchSDKTaskQueues().catch(logger.error);
-
-    // fetch the queues from the insights client on initial render
-    fetchInsightsQueueData().catch(logger.error);
+    fetchQueues();
 
     return () => {
       if (queueMap.current) {
@@ -257,6 +268,13 @@ const QueueDirectoryTab = (props: OwnProps) => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (Array.isArray(props.queues)) {
+      // If Flex UI already fetched queues, use it
+      setFetchedQueues(props.queues);
+    }
+  }, [props.queues]);
 
   // hook when fetchedQueues, insightsQueues are updated
   useEffect(() => {
@@ -274,6 +292,7 @@ const QueueDirectoryTab = (props: OwnProps) => {
       entries={filteredQueues}
       isLoading={isLoading}
       onTransferClick={onTransferQueueClick}
+      onReloadClick={onReloadClick}
       noEntriesMessage={templates[StringTemplates.NoQueuesAvailable]}
     />
   );

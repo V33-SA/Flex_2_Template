@@ -42,6 +42,7 @@
     "twilio-cli": "5.23.1"
   },
   "dependencies": {
-    "@microsoft/signalr": "^8.0.7"
+    "@microsoft/signalr": "^8.0.7",
+    "moment-timezone": "^0.6.0"
   }
 }

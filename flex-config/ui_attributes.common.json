@@ -419,7 +419,13 @@
         },
         "component_theme_overrides": {}
       },
+      "v33_availableworkers": {
+        "enabled": true
+      },
       "v33_callbacks": {
+        "enabled": true
+      },
+      "v33_downtimemanager": {
         "enabled": true
       },
       "force_conference_region": {

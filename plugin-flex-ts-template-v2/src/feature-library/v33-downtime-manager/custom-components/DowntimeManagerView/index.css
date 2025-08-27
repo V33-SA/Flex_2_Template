@@ -1,0 +1,12 @@
+.Twilio-View-schedule-downtime-manager > div{
+    width: inherit;
+    overflow: auto;
+}
+.Twilio-View-schedule-downtime-manager{
+    width: 100%;
+}
+
+.loading-modal-dialog{
+    min-height: 0px !important;
+    width: fit-content !important;
+}
